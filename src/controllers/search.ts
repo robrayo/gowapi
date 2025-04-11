@@ -66,16 +66,40 @@ export const search = async (req: Request, res: Response) => {
             });
 
             // Add more realistic cookies
-            await page.setCookie({
-                name: 'cf_clearance',
-                value: 'dummy',
-                domain: new URL(baseUrl).hostname,
-                path: '/',
-                expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1 week
-                httpOnly: true,
-                secure: true,
-                sameSite: 'Lax'
-            });
+            const cookies = [
+                {
+                    name: 'cf_clearance',
+                    value: 'dummy',
+                    domain: new URL(baseUrl).hostname,
+                    path: '/',
+                    expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1 week
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'Lax' as const
+                },
+                {
+                    name: 'PHPSESSID',
+                    value: Math.random().toString(36).substring(2),
+                    domain: new URL(baseUrl).hostname,
+                    path: '/',
+                    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'Lax' as const
+                },
+                {
+                    name: 'wordpress_test_cookie',
+                    value: 'WP+Cookie+check',
+                    domain: new URL(baseUrl).hostname,
+                    path: '/',
+                    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'Lax' as const
+                }
+            ];
+
+            await page.setCookie(...cookies);
 
             // Visit homepage first with random delay
             await page.goto(baseUrl, { waitUntil: 'networkidle0' });
