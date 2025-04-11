@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>API Routes Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f7f7f7;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      color: #444;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      background-color: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f0f0f0;
+      font-weight: bold;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    code {
+      background-color: #eee;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .endpoint {
+      background-color: #e6f7ff;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    .example {
+      background-color: #f5f5f5;
+      padding: 1rem;
+      border-radius: 4px;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>API Route Documentation</h1>
+
+  <div class="endpoint">
+    <h2>GET /spotlight</h2>
+    <p>Returns spotlight/featured content.</p>
+    <div class="example">
+      <code>GET /spotlight</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /suggestions</h2>
+    <p>Returns search suggestions and featured content.</p>
+    <div class="example">
+      <code>GET /suggestions</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /search</h2>
+    <p>Search for movies, series, and other content with advanced filtering.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Required?</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>keyword</code></td>
+          <td>string</td>
+          <td>The search query (e.g., title)</td>
+          <td>Yes</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>page</code></td>
+          <td>number</td>
+          <td>Page number for pagination</td>
+          <td>No</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td><code>genre</code></td>
+          <td>string</td>
+          <td>Filter by genre</td>
+          <td>No</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>year</code></td>
+          <td>number</td>
+          <td>Filter by release year</td>
+          <td>No</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>country</code></td>
+          <td>string</td>
+          <td>Filter by country</td>
+          <td>No</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <code>GET /search?keyword=avengers&genre=action&year=2023&country=usa&page=1</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /genres</h2>
+    <p>Returns a list of all available genres with their content counts.</p>
+    <div class="example">
+      <code>GET /genres</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /genre/:genre</h2>
+    <p>Returns content for a specific genre with pagination.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Required?</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>genre</code></td>
+          <td>string</td>
+          <td>Genre slug (URL parameter)</td>
+          <td>Yes</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>page</code></td>
+          <td>number</td>
+          <td>Page number for pagination</td>
+          <td>No</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <code>GET /genre/action?page=1</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /category/:category</h2>
+    <p>Returns content for a specific category with optional filtering.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Required?</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>category</code></td>
+          <td>string</td>
+          <td>
+            Category slug. Possible values: <code>recommended</code>, <code>episode</code>, <code>movies</code>, <code>series</code>, <code>top movies</code>, <code>most viewed</code>, <code>director</code>, <code>actors</code>, <code>studios</code>, <code>countries</code>, <code>networks</code>, <code>genres</code>, <code>release-year</code>
+          </td>
+          <td>Yes (URL param)</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>page</code></td>
+          <td>number</td>
+          <td>Page number for pagination</td>
+          <td>No</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td><code>filter</code></td>
+          <td>string</td>
+          <td>Filter by subcategory (e.g., movies, series, genre, most-viwed)</td>
+          <td>No</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>country</code></td>
+          <td>string</td>
+          <td>Filter by country code (e.g., France, Japan, Philippines, Korea)</td>
+          <td>No</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <code>GET /category/movies?page=1&country=usa</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /seasons/:type/:id</h2>
+    <p>Returns seasons information for a series.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Required?</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>type</code></td>
+          <td>string</td>
+          <td>Type of media (series or episode)</td>
+          <td>Yes (URL param)</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>id</code></td>
+          <td>string</td>
+          <td>ID of the media item</td>
+          <td>Yes (URL param)</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <code>GET /seasons/series/12345</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /info/:type/:id</h2>
+    <p>Returns detailed information about a movie or series.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Required?</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>type</code></td>
+          <td>string</td>
+          <td>Type of media (movie or series)</td>
+          <td>Yes (URL param)</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>id</code></td>
+          <td>string</td>
+          <td>ID of the media item</td>
+          <td>Yes (URL param)</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <code>GET /info/movie/12345</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /series-episodes/:id</h2>
+    <p>Returns episode information for a series.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Required?</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>id</code></td>
+          <td>string</td>
+          <td>ID of the series</td>
+          <td>Yes (URL param)</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <code>GET /series-episodes/12345</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /servers/:type/:id</h2>
+    <p>Returns available streaming servers for a movie or episode.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Required?</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>type</code></td>
+          <td>string</td>
+          <td>Type of media (movie or episode)</td>
+          <td>Yes (URL param)</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>id</code></td>
+          <td>string</td>
+          <td>ID of the media item</td>
+          <td>Yes (URL param)</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <code>GET /servers/movie/12345</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /sources/:token</h2>
+    <p>Returns streaming sources for a specific token.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Required?</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>token</code></td>
+          <td>string</td>
+          <td>Streaming token</td>
+          <td>Yes (URL param)</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <code>GET /sources/abc123</code>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <h2>GET /hls/:token</h2>
+    <p>Returns HLS streaming data for a specific token.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Required?</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>token</code></td>
+          <td>string</td>
+          <td>HLS streaming token</td>
+          <td>Yes (URL param)</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <code>GET /hls/abc123</code>
+    </div>
+  </div>
+</body>
+</html>
