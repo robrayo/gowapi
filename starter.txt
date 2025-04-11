@@ -1,0 +1,14 @@
+import { Request, Response } from "express";
+import { client } from '../utils/client'
+import * as cheerio from 'cheerio'
+
+export const allMovies = async (req: Request, res: Response) => {
+    try {
+        const response = await client.get(``);
+        const $ = cheerio.load(response.data);
+
+        res.status(200).send("hello")
+    } catch (error: any) {
+        res.status(500).json(error.message);
+    }
+}
